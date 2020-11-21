@@ -36,6 +36,22 @@ describe("testing App component", () => {
     expect(component.find(".recipeContainer").find("button").length).toBe(6);
   });
 
+  test("Search Bar", () => {
+    const component = shallow(<App />);
+    const searchBar = component.find(".headContent").find("input");
+    searchBar.simulate("change", {
+      target: { name: "search", value: "B" },
+    });
+    expect(component.find(".recipeContainer").find(".recipeCard").length).toBe(
+      2
+    );
+    searchBar.simulate("change", {
+      target: { name: "search", value: "zpo" },
+    });
+    expect(component.find(".recipeContainer").find(".recipeCard").length).toBe(
+      0
+    );
+  });
   test("Add Recipe", () => {
     const component = shallow(<App />);
     const addRecipeButton = component.find(".headContent").find("button");
@@ -123,21 +139,5 @@ describe("testing App component", () => {
     expect(cancelButton.text()).toBe("Cancel");
     cancelButton.simulate("click");
     expect(component.find("Modal").length).toBe(0);
-  });
-  test("Search Bar", () => {
-    const component = shallow(<App />);
-    const searchBar = component.find(".headContent").find("input");
-    searchBar.simulate("change", {
-      target: { name: "search", value: "B" },
-    });
-    expect(component.find(".recipeContainer").find(".recipeCard").length).toBe(
-      2
-    );
-    searchBar.simulate("change", {
-      target: { name: "search", value: "zpo" },
-    });
-    expect(component.find(".recipeContainer").find(".recipeCard").length).toBe(
-      0
-    );
   });
 });
